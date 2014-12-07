@@ -1,3 +1,20 @@
+
+# components of tide data -------------------------------------------------
+
+# four things you should have in data 
+# 1. raw data
+# 2. tidy data
+# 3. cookbook
+# 4. steps 1->2
+
+# the tidy data
+# 1, each variable you measure should be in one col
+# 2. each different observation of that variable should be in a different row
+# 3. there should be one table for each "kind" of variable
+# 4. if you have multiple tables, they should include a column in the the table that allows them to be linked
+
+
+
 # csv ---------------------------------------------------------------------
 
 fileUrl <- "https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD"
