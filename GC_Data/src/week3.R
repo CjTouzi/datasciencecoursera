@@ -1,4 +1,3 @@
-
 # subsetting review -------------------------------------------------------
 
 set.seed(13435)
@@ -68,8 +67,6 @@ all(colSums(is.na(restData)))
 table(restData$zipCode %in% c("21212"))
 table(restData$zipCode %in% c("21212", "21213"))
 restData[restData$zipCode %in% c("21212", "21213"),]
-
-
 
 
 #  cross tabs -------------------------------------------------------------
@@ -160,6 +157,39 @@ carMelt <- melt(mtcars, id=c("carname","gear","cyl"), measure.vars = c("mpg","hp
 head(carMelt)
 tail(carMelt)
 
-# casting datasframes
 
+# merging data ------------------------------------------------------------
 
+fileUrl1 <- "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"
+fileUrl2 <- "https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"
+download.file(fileUrl1, destfile="./data/reviews.csv", method="auto")
+download.file(fileUrl2, destfile="./data/solutions.csv", method="auto")
+reviews <- read.csv("./data/reviews.csv")
+solutions <- read.csv("./data/solutions.csv")
+head(reviews, 2)
+head(solutions, 2)
+# merge()
+names(reviews) # solution_id
+names(solutions) # problem_id
+
+mergeData =merge(reviews, solutions, by.x = "solution_id", by.y = "id", all=TRUE)
+head(mergeData)
+
+intersect(names(solutions), names(reviews))
+mergeData2 =merge(reviews, solutions, all=TRUE)
+head(mergeData2)
+
+# using join in the plyr pack
+
+library(plyr)
+df1 = data.frame(id=sample(1:10), x=rnorm(10))
+df2 = data.frame(id=sample(1:10), y=rnorm(10))
+arrange(join(df1,df2),id)
+
+# join multiple data frames
+
+df1 = data.frame(id=sample(1:10), x=rnorm(10))
+df2 = data.frame(id=sample(1:10), y=rnorm(10))
+df3 = data.frame(id=sample(1:10), y=rnorm(10))
+dfList =list(df1,df2,df3)
+join_all(dfList)
