@@ -162,4 +162,22 @@ tail(carMelt)
 
 # casting datasframes
 
+cylData <- dcast(carMelt, cyl ~ variable)
+cylData
+cylData <- dcast(carMelt, cyl ~ variable, mean)
+cylData
 
+# averageing value
+
+head(InsectSprays)
+tapply(InsectSprays$count, InsectSprays$spray, sum)
+
+spIns =split(InsectSprays$count,InsectSprays$spray)
+spIns
+
+sprCount =lapply(spIns, sum)
+sprCount
+unlist(sprCount)
+sapply(spIns, sum)
+
+ddply(InsectSprays,.(spray),summarize, sum=ave(count, FUN=sum))
