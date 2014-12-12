@@ -105,47 +105,53 @@ max(stepsPerDayNew$totalSteps)
 # 
 # Create a new factor variable in the dataset with two levels - 
 # "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
-MisRemovedAct$isWeekend <- ifelse (weekdays(as.Date(MisRemovedAct$date)) %in% 
-                                   c("Saturday", "Sunday"), "weekend", "weekday")
 
-MisRemovedAct$isWeekend<-as.factor(MisRemovedAct$isWeekend, )
- 
+# set back to english in windows
+
+Sys.setlocale("LC_TIME", "English")
+
+MisRemovedAct$isWeekend <- ifelse(weekdays(as.Date(MisRemovedAct$date)) %in% 
+                                      c("Saturday", "Sunday"), "weekend", "weekday")
+MisRemovedAct$isWeekend<-as.factor(MisRemovedAct$isWeekend)
+
+
+# average steps for each interval 
+library(plyr)
+
+stepsPerIntervalWeekday <- ddply(MisRemovedAct[MisRemovedAct$isWeekend=="weekday"], .(interval), summarize, avgSteps=mean(steps))
+
+stepsPerIntervalWeekend <- ddply(MisRemovedAct[MisRemovedAct$isWeekend=="weekend"], .(interval), summarize, avgSteps=mean(steps))
+
 # Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) 
-
-
-
-
 # and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
-# See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+library(ggplot2)
+require(gridExtra)
 
 
 
+p1 <- 
+    ggplot(stepsPerIntervalWeekend, aes(x=TimeSeq[1:288], y=avgSteps)) +
+    xlab("Time")+
+    geom_line()+
+    ggtitle("Weekend")+
+    theme(plot.title = element_text(lineheight=0.8, face=quote(bold)))+
+    theme(axis.text.x = element_text(size=12, colour = rgb(0,0,0)))+
+    theme(axis.text.y = element_text(size=12, colour = rgb(0,0,0)))+
+    theme(axis.title.y = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))+
+    theme(axis.title.x = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))
 
+p2 <- 
+    ggplot(stepsPerIntervalWeekday, aes(x=TimeSeq[1:288], y=avgSteps)) +
+    xlab("Time")+
+    geom_line() +
+    ggtitle("Weekday")+
+    theme(plot.title = element_text(lineheight=0.8, face=quote(bold)))+
+    theme(axis.text.x = element_text(size=12, colour = rgb(0,0,0)))+
+    theme(axis.text.y = element_text(size=12, colour = rgb(0,0,0)))+
+    theme(axis.title.y = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))+
+    theme(axis.title.x = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))
 
-
-
-
-
-
-
-
-
-
-# average steps each day 
-stepsPerDay <- ddply(act, .(date), summarize, avgSteps=mean(steps, na.rm=TRUE))
-nrow(stepsPerDay)
-plot(stepsPerDay, type="l")
-
-
-
-
-sd(act$steps, na.rm=TRUE)/sqrt(length(act$steps))
-sd(stepsPerInterval$avgSteps, na.rm=TRUE)/sqrt(length(stepsPerInterval$avgSteps))
-
-
-act <- cbind(act, NAV= is.na(act$steps))
-NATable <- table (act$NAV, act$interval)
-NATable
+grid.arrange(p1, p2, ncol=1)
 
 
 
