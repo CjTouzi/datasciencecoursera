@@ -1,14 +1,6 @@
----
-title: "PA1_template"
-author: "CJ"
-date: "Saturday, December 13, 2014"
-output:
-  html_document:
-    fig_caption: yes
-    highlight: zenburn
-    keep_md: yes
-    toc: yes
----
+# PA1_template
+CJ  
+Saturday, December 13, 2014  
 
 ## 1. Introduction
 
@@ -51,14 +43,25 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 Load and preview data 
 
-```{r, echo=TRUE, results='hold'}
 
+```r
 library(data.table)
 act <- data.table(read.csv("D:/GitHub/datasciencecoursera/Repro/data/activity.csv"))
 head(act, n=3)
 tail(act, n=3)
 names(act)
+```
 
+```
+##    steps       date interval
+## 1:    NA 2012-10-01        0
+## 2:    NA 2012-10-01        5
+## 3:    NA 2012-10-01       10
+##    steps       date interval
+## 1:    NA 2012-11-30     2345
+## 2:    NA 2012-11-30     2350
+## 3:    NA 2012-11-30     2355
+## [1] "steps"    "date"     "interval"
 ```
  
 ### 2.2 Daily activity 
@@ -71,8 +74,8 @@ In this section, we preform our analysis on the activity data both at daily basi
 What's the overall profile of data on daily basis? To address this question, we could Make a histogram of the total number of steps taken each day.  
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold', fig.path=('figures/1');}
 
+```r
 stepsPerDay=act[,sum(steps, ra.rm=TRUE), by=date]
 stepsPerDay$date <- as.Date(stepsPerDay$date, "%Y-%m-%d")
 setnames(stepsPerDay,"V1", "totalSteps")
@@ -85,16 +88,26 @@ Sys.setlocale("LC_TIME", "English")
 ggplot(stepsPerDay, aes(x=date, y=totalSteps)) +
     geom_bar(fill="orange", stat="identity") +
     labs(x="Date", y="Total Steps", title="Fig1: Total Steps per Day")
-          
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+```
+## [1] "date"       "totalSteps"
+## [1] "English_United States.1252"
 ```
 
 Now we calculate the mean and median total number of steps taken per day ignoring missing values.
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
 
+```r
 mean(stepsPerDay$totalSteps, na.rm=TRUE)
 median(stepsPerDay$totalSteps,na.rm=TRUE)
+```
 
+```
+## [1] 10767.19
+## [1] 10766
 ```
 As shown in **Fig1**, the total steps per day among Oct01- Dec01 seems to be equally distributed among its mean and median. It suggests that it might be possible to detect the irregular activity by activity analysis on daily basis. 
 
@@ -103,8 +116,8 @@ As shown in **Fig1**, the total steps per day among Oct01- Dec01 seems to be equ
 Another way to study the activity data is to analysis its average daily activity patter. First, we make a time series plot of the 5-minute interval and the average number of steps taken averaged across all days. 
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
 
+```r
 # create a time seqence
 start <- as.POSIXct(act$date[[1]], )
 interval <- 5
@@ -131,8 +144,13 @@ ggplot(stepsPerInterval, aes(x=TimeSeq[1:288], y=avgSteps)) +
     theme(axis.text.y = element_text(size=12, colour = rgb(0,0,0)))+
     theme(axis.title.y = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))+
     theme(axis.title.x = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
+```
+## [1] 206.1698
+## [1] "08:35:00"
 ```
 
 As we can see from **Fig2**, `8:35am` contains the maximum number steps (`206` steps averaging across all the days in the dataset). This may be due to a regular exercise, walking to work or others. Assuming a average step size of a man is 0.7m, 200 steps per 5-minute would be at about 1.6 km/h, which is much slower than the regular running and also a regular walking without a pack. Hence, one plausible explanation is that the peak in **Fig2** from 8:00 am to 9:00 am might be due to a slow walking with a pack. 
@@ -142,14 +160,19 @@ As we can see from **Fig2**, `8:35am` contains the maximum number steps (`206` s
 
 Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data. We calculate the total number of missing values in the data set. For example, the total number of rows with `NAs`.
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
+
+```r
 sum(is.na(act$steps),na.rm=FALSE)
 sum(is.na(act$steps),na.rm=FALSE)/nrow(act) 
+```
 
 ```
+## [1] 2304
+## [1] 0.1311475
+```
 In total, we have 13% observation contains missing values. A strategy for filling in all the missing values in the dataset may help to reduce the bais inside the data. Two simple strategy are proposed here. We could use the mean/median for that day, or the mean for that 5 minute interval. Here we prefered use the mean for 5-minute interval. The reasons are following. As mentioned above, the total steps per day seems equally distributed around its mean/median, which is 10000 steps per day by average. Therefore, around 35 steps on 5-minte basis. However, as shown in **Fig2**, average steps at 5-minute interval broadly distributed from 0 to 200 steps. Hence, if the `NAs` are not randomly distributed in different time interval. In other words, `NAs` occur more in a specific period. We may distort 5-minute profile if we imputing missing values using mean/median for that day. Therefore, here we use the mean for 5-minute interval for filling in all of the missing values in the dataset. 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
 
+```r
 # 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 MisRemovedAct <- act
 # use mean for that 5-minute interval 
@@ -172,10 +195,20 @@ library(ggplot2)
 ggplot(stepsPerDayNew, aes(x=date, y=totalSteps)) +
         geom_bar(fill="orange", stat="identity") +
         labs(x="Date", y="Total Steps", title="Fig3: Total Steps per Day after Missing Data Imputting")
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+```r
 stepsPerDayNew$date[which.max(stepsPerDayNew$totalSteps)]
 max(stepsPerDayNew$totalSteps)
+```
 
+```
+## [1] "date"       "totalSteps"
+## new mean: 10767.19		old mean: 10767.19
+## new median: 10767.19		old median:  10766[1] "2012-11-23"
+## [1] 21195
 ```
 
 As seen in **Fig3**, the missing values have been filled in and don't change the profile on daily basis dramatically. Also, the median/mean in 5-interval after imputting missing data are quite similar to previous result.
@@ -185,7 +218,8 @@ As seen in **Fig3**, the missing values have been filled in and don't change the
 One interesting question is whether there are differences in activity patterns between weekdays and weekends. Here we create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day. And then make a panel plot containing a time series plot of the 5-minute interval and the average number of steps taken average across all weekday days or weekend days. 
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
+
+```r
 # set back to english in windows
 Sys.setlocale("LC_TIME", "English")
 MisRemovedAct$isWeekend <- ifelse(weekdays(as.Date(MisRemovedAct$date)) %in% 
@@ -227,8 +261,12 @@ p2 <-
     theme(axis.title.x = element_text(size=17,  face=quote(bold), colour = rgb(0,0,0)))
 
 grid.arrange(p1, p2, ncol=1)
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
+```
+## [1] "English_United States.1252"
 ```
 **Fig4a** and **Fig4b** show that the testee make more steps in the afternoon on weekend but less steps in the morning. 
 
