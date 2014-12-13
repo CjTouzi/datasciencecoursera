@@ -1,4 +1,3 @@
-
 # Load data ---------------------------------------------------------------
 
 library(data.table)
@@ -9,25 +8,28 @@ names(act)
 
 # What is mean total number of steps taken per day? -----------------------
 
-# a histogram of the total number of steps taken each
+# a histogram of th etotal number of steps taken each
+
 stepsPerDay=act[,sum(steps, ra.rm=TRUE), by=date]
 stepsPerDay$date <- as.Date(stepsPerDay$date, "%Y-%m-%d")
 setnames(stepsPerDay,"V1", "totalSteps")
 names(stepsPerDay)
 
+library(ggplot2)
+ggplot(stepsPerDay, aes(x=date, y=totalSteps)) +
+    geom_bar(fill="orange", stat="identity") +
+    labs(x="Date", y="Total Steps", title="Total Steps per Day")
+
 
 # create a time seqence
-start <- as.POSIXct(act$date[[1]])
+start <- as.POSIXct(act$date[[1]], )
 interval <- 5
 end <- start + as.difftime(1, units="days")
 TimeSeq<-seq(from=start, by=interval*60, to=end)
 
 
 
-library(ggplot2)
-ggplot(stepsPerDay, aes(x=date, y=totalSteps)) +
-        geom_bar(fill="orange", stat="identity") +
-        labs(x="Date", y="Total Steps", title="Total Steps per Day")
+
 mean(stepsPerDay$totalSteps, na.rm=TRUE)
 median(stepsPerDay$totalSteps,na.rm=TRUE)
 
