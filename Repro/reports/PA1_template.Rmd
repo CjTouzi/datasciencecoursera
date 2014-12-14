@@ -71,7 +71,7 @@ In this section, we preform our analysis on the activity data both at daily basi
 What's the overall profile of data on daily basis? To address this question, we could Make a histogram of the total number of steps taken each day.  
 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold', fig.path=('figures/1');}
+```{r, echo=TRUE, message=FALSE, warning=FALSE, results='hold'}
 
 stepsPerDay=act[,sum(steps, ra.rm=TRUE), by=date]
 stepsPerDay$date <- as.Date(stepsPerDay$date, "%Y-%m-%d")
