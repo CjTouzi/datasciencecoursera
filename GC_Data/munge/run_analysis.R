@@ -3,23 +3,26 @@
 
 # run_analysis.R is in the munge folder 
 
+
+dataDir="./data/peer/"
+
 # join x
-x_train<- read.table("./data/peer/UCI HAR Dataset/train/X_train.txt")
-x_test <- read.table("./data/peer/UCI HAR Dataset/test/X_test.txt")
+x_train<- read.table(paste0(dataDir,"UCI HAR Dataset/train/X_train.txt"))
+x_test <- read.table(paste0(dataDir,"/UCI HAR Dataset/test/X_test.txt"))
 x_all <- rbind(x_train,x_test)
 rm(x_train);rm(x_test)
 
 # join y 
 
-y_train <- read.table("./data/peer/UCI HAR Dataset/train/y_train.txt")
-y_test <- read.table("./data/peer/UCI HAR Dataset/test/y_test.txt")
+y_train <- read.table(paste0(dataDir,"/UCI HAR Dataset/train/y_train.txt"))
+y_test <- read.table(paste0(dataDir,"/UCI HAR Dataset/test/y_test.txt"))
 y_all <- rbind(y_train,y_test)
 rm(y_train);rm(y_test)
 
 # join subject
 
-sub_train <- read.table("./data/peer//UCI HAR Dataset/train//subject_train.txt")
-sub_test <- read.table("./data/peer//UCI HAR Dataset/test/subject_test.txt")
+sub_train <- read.table(paste0(dataDir,"/UCI HAR Dataset/train//subject_train.txt"))
+sub_test <- read.table(paste0(dataDir,"/UCI HAR Dataset/test/subject_test.txt"))
 sub_all <- rbind(sub_train, sub_test)
 rm(sub_test,sub_train)
 
@@ -28,7 +31,7 @@ rm(sub_test,sub_train)
 
 # read features
 
-feature <- read.table("./data/peer/UCI HAR Dataset/features.txt")
+feature <- read.table(paste0(dataDir,"/UCI HAR Dataset/features.txt"))
 head(feature)
 
 # extract mean & standard deviation features
@@ -46,7 +49,7 @@ names(x_all)
 
 # Uses descriptive activity names to name the activities and subject in the data --------
 
-act <- read.table("./data/peer//UCI HAR Dataset//activity_labels.txt")
+act <- read.table(paste0(dataDir,"/UCI HAR Dataset/activity_labels.txt"))
 act[, 2] <- tolower(act[, 2] )
 act
 
@@ -66,7 +69,7 @@ names(x_all)[names(x_all)=="V1"] <- "subject"
 dim(x_all)
 
 # write out the 1st dataset
-write.table(x_all, "./data/peer/UCI HAR Dataset/merged_data.txt")
+write.table(x_all, paste0(dataDir,"/UCI HAR Dataset/merged_data.txt")
 
 rm(act,sub_all,y_all)
 
@@ -77,14 +80,12 @@ rm(act,sub_all,y_all)
 # for each activity and each subject.
 
 library(plyr)
-x_all$tBodyAcc-mean-X
 dt <- data.frame(x_all)
 
 # catcolwise
 
 result <- ddply(dt, ~subject+activity, numcolwise(mean))
-head(result)
-write.table(result, "./data/peer/UCI HAR Dataset/data_with_means.txt",row.name=FALSE) # write out the 2nd dataset
+write.table(result, paste0(dataDir,"/UCI HAR Dataset/data_with_means.txt"),row.name=FALSE) # write out the 2nd dataset
 result[,1:4]
 
 
