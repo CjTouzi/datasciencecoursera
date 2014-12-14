@@ -60,26 +60,30 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="how-run_analysis.r-script-works." class="section level4">
 <h4>how run_analysis.R script works.</h4>
-<pre><code>1. Unzip the data from [data link] and rename the folder with &quot;data&quot; and record your data directory
-2. Set dataDir to your data directory
-3. Source(&quot;run_analysis.R&quot;) command in RStudio.
-4. Two output files will be generated in your data directory  
-    - merged_data.txt(7.9Mb)
-    - data_with_means.txt (220 Kb)
-    </code></pre>
+<ol style="list-style-type: decimal">
+<li>Unzip the data from <a href title="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">data link</a> and rename the folder with “data” and record your data directory</li>
+<li>Set dataDir to your data directory</li>
+<li>Source(“run_analysis.R”) command in RStudio.</li>
+<li>Two output files will be generated in your data directory
+<ul>
+<li>merged_data.txt(7.9Mb)</li>
+<li>data_with_means.txt&quot; (220 Kb)</li>
+</ul></li>
+</ol>
 </div>
 <div id="merged_data.txt7.9mb" class="section level4">
 <h4>merged_data.txt(7.9Mb)</h4>
-<pre><code>    - It contains a data frame called x_all with 10299*68 dimension. 
-    - x_all merges X_train.txt and X_text.txt on the feasures with mean and standard deviation, 
-    subject and activity (please check codeBook for details)
-    </code></pre>
+<ul>
+<li>It contains a data frame called x_all with 10299*68 dimension.</li>
+<li>x_all merges X_train.txt and X_text.txt on the feasures with mean and standard deviation, subject and activity (please check codeBook for details)</li>
+</ul>
 </div>
 <div id="data_with_means.txt-220-kb" class="section level4">
 <h4>data_with_means.txt (220 Kb)</h4>
-<pre><code>    - It contains a data frame called result with 180*68 dimension.
-    - It averages of each variabl for each activity and each subject of x_all dataset mentioned before
-    (please check codeBook for details)</code></pre>
+<ul>
+<li>It contains a data frame called result with 180*68 dimension.</li>
+<li>It averages of each variabl for each activity and each subject of x_all dataset mentioned before (please check codeBook for details)</li>
+</ul>
 </div>
 
 
