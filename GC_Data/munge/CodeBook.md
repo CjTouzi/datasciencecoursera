@@ -1,5 +1,6 @@
 # CodeBook
 by CJ  
+Dec 15th, 2014  
 
 #### Raw data source
 - The raw dataset is downloaded [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip )  

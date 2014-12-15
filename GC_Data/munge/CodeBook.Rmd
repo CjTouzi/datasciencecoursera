@@ -1,6 +1,7 @@
 ---
 title: "CodeBook"
 author: "by CJ"
+date: "Dec 15th, 2014"
 output:
   html_document:
     fig_caption: yes
@@ -8,6 +9,7 @@ output:
     keep_md: yes
     theme: united
     toc: yes
+    toc_depth: 4
 ---
 
 #### Raw data source

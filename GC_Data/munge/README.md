@@ -1,16 +1,6 @@
----
-title: "Getting and Cleaning Data Course Project"
-author: "CJ"
-date: "Sunday, December 14, 2014"
-output:
-  html_document:
-    fig_caption: yes
-    highlight: tango
-    keep_md: yes
-    theme: united
-    toc: yes
-    toc_depth: 4
----
+# Getting and Cleaning Data Course Project
+CJ  
+Sunday, December 14, 2014  
 
 #### how run_analysis.R script works.
 
