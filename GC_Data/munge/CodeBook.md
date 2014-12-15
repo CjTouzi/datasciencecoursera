@@ -5,7 +5,15 @@ by CJ
 - The raw dataset is downloaded [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip )  
 - The detail description of raw data please check [link](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) here. Or Read README and features_info in the dataset package  
 
-#### Cleaning by run_analysis.R script
+#### Purpose of run_analysis.R script
+
+- Merges the training and the test sets to create one data set.
+- Extracts only the measurements on the mean and standard deviation for each measurement. 
+- Uses descriptive activity names to name the activities in the data set
+- Appropriately labels the data set with descriptive variable names. 
+- From the data set in step 4, creates a second, independent tidy data set with the average of each variable for          each activity and each subject.
+
+#### Cleaning Process of run_analysis.R script
 - Read X_train.txt from "./data/train" and save as `x_train`. Read x_text.txt from the "./data/test" folder and save as `x_test`. Concatenate x_train and x_test and save as `x_all` (10299x561). Remove x_train and x_test.
 -  Read y_train.txt from "./data/train" and save as `y_train`. Read y_text.txt from the "./data/test" folder and save as `y_test`. Concatenate y_train and y_test and save as `y_all` (10299x1). Remove y_train and y_test.
 - Read subject_train.txt from "./data/train" and save as `sub_train`. Read subject_text.txt from the "./data/test" folder and save as `sub_test`. Concatenate sub_train and sub_test and save as `sub_all` (10299x1). Remove sub_train and sub_test.

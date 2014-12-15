@@ -49,8 +49,18 @@
 <li>The detail description of raw data please check <a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">link</a> here. Or Read README and features_info in the dataset package</li>
 </ul>
 </div>
-<div id="cleaning-by-run_analysis.r-script" class="section level4">
-<h4>Cleaning by run_analysis.R script</h4>
+<div id="purpose-of-run_analysis.r-script" class="section level4">
+<h4>Purpose of run_analysis.R script</h4>
+<ul>
+<li>Merges the training and the test sets to create one data set.</li>
+<li>Extracts only the measurements on the mean and standard deviation for each measurement.</li>
+<li>Uses descriptive activity names to name the activities in the data set</li>
+<li>Appropriately labels the data set with descriptive variable names.</li>
+<li>From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.</li>
+</ul>
+</div>
+<div id="cleaning-process-of-run_analysis.r-script" class="section level4">
+<h4>Cleaning Process of run_analysis.R script</h4>
 <ul>
 <li>Read X_train.txt from “./data/train” and save as <code>x_train</code>. Read x_text.txt from the “./data/test” folder and save as <code>x_test</code>. Concatenate x_train and x_test and save as <code>x_all</code> (10299x561). Remove x_train and x_test.</li>
 <li>Read y_train.txt from “./data/train” and save as <code>y_train</code>. Read y_text.txt from the “./data/test” folder and save as <code>y_test</code>. Concatenate y_train and y_test and save as <code>y_all</code> (10299x1). Remove y_train and y_test.</li>
