@@ -28,7 +28,7 @@ subject and activity (please check codeBook for details)
     
 #### data_with_means.txt (220 Kb)       
 - It contains a data frame called result with 180*68 dimension.
-- It averages of each variabl for each activity and each subject of x_all dataset mentioned before
+- It averages of each variale for each activity and each subject of x_all dataset mentioned before
 (please check codeBook for details)
     
     
