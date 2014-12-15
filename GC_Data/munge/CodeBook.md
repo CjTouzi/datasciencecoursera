@@ -3,7 +3,7 @@ by CJ
 
 #### Raw data source
 - The raw dataset is downloaded [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip )  
-- The detail description of raw data please check [link](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones), the README and features_info in the dataset package  
+- The detail description of raw data please check [link](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) here. Or Read README and features_info in the dataset package  
 
 #### Cleaning by run_analysis.R script
 - Read X_train.txt from "./data/train" and save as `x_train`. Read x_text.txt from the "./data/test" folder and save as `x_test`. Concatenate x_train and x_test and save as `x_all` (10299x561). Remove x_train and x_test.
