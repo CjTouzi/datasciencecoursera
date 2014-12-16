@@ -29,6 +29,20 @@ EcoFactor <- c("prop_dmg, crop_dmg")
 library(plyr)
 fatalCount <- ddply(storm, .(EventTypeCode), summarize, fatalities = sum(FATALITIES))
 injurCount <- ddply(storm, .(EventTypeCode), summarize, injuries = sum(INJURIES))
+
+as.POSIXct(strptime(storm$BGN_DATE[1:10], "%m/%d/%Y %H:%M:%S"))
+
+
+
+
+
+
+
+
+
+as.POSIXct
+fatalCount <- ddply(storm, .~EventTypeCode+, summarize, fatalities = sum(FATALITIES))
+
 fatalTop10 <- fatalCount[order(fatalCount$fatalities,decreasing = T)[1:10],] 
 fatalTop10 
 injurTop10 <- injurCount[order(injurCount$injuries,decreasing = T)[1:10],] 
@@ -80,8 +94,6 @@ exp_transform <- function(e) {
 }
 
 PRO
-
-
 test1 <- function(type) {
         switch(type,
                mean = 1,
