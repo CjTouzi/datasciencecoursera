@@ -32,16 +32,7 @@ injurCount <- ddply(storm, .(EventTypeCode), summarize, injuries = sum(INJURIES)
 
 as.POSIXct(strptime(storm$BGN_DATE[1:10], "%m/%d/%Y %H:%M:%S"))
 
-
-
-
-
-
-
-
-
-as.POSIXct
-fatalCount <- ddply(storm, .~EventTypeCode+, summarize, fatalities = sum(FATALITIES))
+fatalCount <- ddply(storm, .~EventTypeCode, summarize, fatalities = sum(FATALITIES))
 
 fatalTop10 <- fatalCount[order(fatalCount$fatalities,decreasing = T)[1:10],] 
 fatalTop10 
@@ -70,7 +61,7 @@ p2 <- ggplot(data=injurTop10,
         xlab("Event type") +
         theme(legend.position="none")
 
-grid.arrange(p1, p2, main="Top 10 harmful weather events in the US (1950-2011)")
+grid.arrange(p1, p2, main="Top 10 harmful weather events for health in the US (1950-2011)")
 
 
 # Economic Effects of Weather Events --------------------------------------
@@ -79,6 +70,8 @@ storm$PROPDMG[1:10]
 storm$PROPDMGEXP[1:10]
 
 levels(storm$PROPDMGEXP)
+
+
 
 exp_transform <- function(e) {
         # h -> hundred, k -> thousand, m -> million, b -> billion   
@@ -93,23 +86,24 @@ exp_transform <- function(e) {
         
 }
 
-PRO
-test1 <- function(type) {
-        switch(type,
-               mean = 1,
-               median = 2,
-               trimmed = ,
-               )
-}
+propDmgExp <- sapply(storm$PROPDMGEXP, FUN=exp_transform)
+propDmgDollar <- as.numeric(storm$PROPDMG * (10 ** propDmgExp))
+rm(propDmgExp)
+cropDmgExp <- sapply(storm$CROPDMGEXP, FUN=exp_transform)
+cropDmgDollar<- as.numeric(storm$CROPDMG * (10 ** cropDmgExp))
+rm(cropDmgExp)
+
+EcoDmg<- data.frame(EventTypeCode=storm$EventTypeCode, propDmgDollar, cropDmgDollar)
 
 
+PropDmgCost <- ddply(EcoDmg, .(EventTypeCode), summarize, propDmg = sum(propDmgDollar))
+CropDmgCost <- ddply(EcoDmg, .(EventTypeCode), summarize, CropDmg = sum(cropDmgDollar))
 
-PropDmgCount <- ddply(storm, .(EventTypeCode), summarize, fatalities = sum(PROPDMG))
-CropDmgCount <- ddply(storm, .(EventTypeCode), summarize, injuries = sum(CROPDMG))
-fatalTop10 <- fatalCount[order(fatalCount$fatalities,decreasing = T)[1:10],] 
-fatalTop10 
-injurTop10 <- injurCount[order(injurCount$injuries,decreasing = T)[1:10],] 
-injurTop10
+PropDmgTop10 <- PropDmgCost[order(PropDmgCost$propDmg,decreasing = T)[1:10],] 
+PropDmgTop10
+
+CropDmgTop10 <- CropDmgCost[order(CropDmgCost$CropDmg,decreasing = T)[1:10],] 
+CropDmgTop10$
 
 # plot 
 
@@ -117,23 +111,24 @@ library(ggplot2)
 library(gridExtra)
 
 # Set the levels in order
-p1 <- ggplot(data=fatalTop10,
-             aes(x=reorder(EventTypeCode, fatalities ), y=fatalities , fill=fatalities)) +
+p1 <- ggplot(data=PropDmgTop10,
+             aes(x=reorder(EventTypeCode, propDmg), y=log10(propDmg), fill=propDmg)) +
         geom_bar(stat="identity") +
         coord_flip() +
-        ylab("Total number of fatalities") +
+        ylab("Property damage Dollar cost in log-scale (1950-2011) ") +
         xlab("Event type") +
         theme(legend.position="none")
 
-p2 <- ggplot(data=injurTop10,
-             aes(x=reorder(EventTypeCode, injuries), y=injuries, fill=injuries)) +
+
+p2 <- ggplot(data=CropDmgTop10,
+             aes(x=reorder(EventTypeCode, CropDmg), y=log10(CropDmg), fill=CropDmg)) +
         geom_bar(stat="identity") +
         coord_flip() + 
-        ylab("Total number of injuries") +
+        ylab("Crop damage Dollar cost in log-scale (1950-2011)") +
         xlab("Event type") +
         theme(legend.position="none")
 
-grid.arrange(p1, p2, main="Top 10 harmful weather events in the US (1950-2011)")
+grid.arrange(p1, p2, main="Top 10 harmful weather events for Economic in the US (1950-2011)")
 
 
 
